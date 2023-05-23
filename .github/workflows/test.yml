@@ -6,6 +6,10 @@ on: # rebuild any PRs and main branch changes
       - main
       - 'releases/*'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -19,6 +23,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: e0300a0f-e375-479f-958c-4634e90db7e7
+          tenant-id: 4a3b9c18-eabb-4dc0-b5e9-6a82f2eb9f6a
+          subscription-id: 2cdafa7b-c9b6-43b0-92b3-7561c34a5e17
+
+      - name: 'Run Azure CLI commands'
+        run: |
+          az account show
       - uses: ./
         with:
-          milliseconds: 1000
+          key-vault-name: keyvault-test34
+          config: '{"TEST": "test"}'
+      - uses:
+        run: echo "${{ env.TEST }}"

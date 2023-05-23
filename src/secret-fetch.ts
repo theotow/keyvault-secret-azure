@@ -17,8 +17,13 @@ export async function getSecret(
 export async function getSecrets(
   client: SecretClient,
   secretNames: string[]
-): Promise<Secret[]> {
-  return Promise.all(
+): Promise<Map<string, Secret>> {
+  const secrets = await Promise.all(
     secretNames.map(async secretName => getSecret(client, secretName))
   )
+  const map = new Map<string, Secret>()
+  for (const [i, secret] of secrets.entries()) {
+    map.set(secretNames[i], secret)
+  }
+  return map
 }
