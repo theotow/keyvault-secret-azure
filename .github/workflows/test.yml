@@ -38,5 +38,4 @@ jobs:
           key-vault-name: keyvault-test34
           config: |
             {"TEST": "test"}
-      - uses:
-        run: echo "${{ env.TEST }}"
+      - run: echo "${{ env.TEST }}"
