@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "keyvault-secret-azure",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "keyvault-secret-azure",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
