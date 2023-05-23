@@ -30,9 +30,6 @@ jobs:
           tenant-id: 4a3b9c18-eabb-4dc0-b5e9-6a82f2eb9f6a
           subscription-id: 2cdafa7b-c9b6-43b0-92b3-7561c34a5e17
 
-      - name: 'Run Azure CLI commands'
-        run: |
-          az account show
       - uses: ./
         with:
           key-vault-name: keyvault-test34
