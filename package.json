@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "keyvault-secret-azure",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "keyvault-secret-azure",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -25,7 +25,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "@azure/identity": "^3.2.2",
+    "@azure/keyvault-secrets": "^4.7.0"
   },
   "devDependencies": {
     "@types/node": "^18.16.3",

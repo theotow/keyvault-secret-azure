@@ -1,16 +1,17 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as secretByConfig from './secret-by-config'
+import {getClient} from './secret-client'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const keyVaultName = core.getInput('key-vault-name', {required: true})
+    const keyVaultClient = getClient({keyVaultName})
+    const config: string = core.getInput('config', {required: true})
+    const applySecret = (secretEnvName: string, secretValue: string): void => {
+      core.exportVariable(secretEnvName, secretValue)
+      core.setSecret(secretValue)
+    }
+    await secretByConfig.apply({client: keyVaultClient, config, applySecret})
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

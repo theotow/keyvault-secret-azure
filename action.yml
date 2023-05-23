@@ -1,11 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Azure KeyVault Secrets to Env'
+description: 'Fetches azure KeyVault secrets and stores them in env variables as secrets'
+author: '@theotow'
+branding:
+  icon: play
+  color: green
 inputs:
-  milliseconds: # change this
+  key-vault-name:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'name of the azure key vault'
+  config:
+    required: true
+    description: 'github secret name to key vault secret name mapping'
 runs:
   using: 'node16'
   main: 'dist/index.js'
