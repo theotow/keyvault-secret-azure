@@ -36,6 +36,7 @@ jobs:
       - uses: ./
         with:
           key-vault-name: keyvault-test34
-          config: '{"TEST": "test"}'
+          config: |
+            {"TEST": "test"}
       - uses:
         run: echo "${{ env.TEST }}"
