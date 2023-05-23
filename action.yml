@@ -1,6 +1,6 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Azure KeyVault Secrets'
+description: 'Fetches azure KeyVault secrets and stores them in env variables as secrets'
+author: '@theotow'
 inputs:
   key-vault-name:
     required: true
