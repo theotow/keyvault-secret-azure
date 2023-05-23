@@ -1,6 +1,9 @@
-name: 'Azure KeyVault Secrets'
+name: 'Azure KeyVault Secrets to Env'
 description: 'Fetches azure KeyVault secrets and stores them in env variables as secrets'
 author: '@theotow'
+branding:
+  icon: play
+  color: green
 inputs:
   key-vault-name:
     required: true
