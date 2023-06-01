@@ -44,12 +44,12 @@ jobs:
             {"TEST": "test"}
       - run: echo "${{ env.TEST }}"
       - name: check
-        if: ${{ env.TEST != "test" }}
+        if: ${{ env.TEST != 'test' }}
         run: exit 1
       - uses: ./
         with:
           key-vault-name: keyvault-test34
       - run: echo "${{ env.TEST2 }}"
       - name: check
-        if: ${{ env.TEST2 != "test2" }}
+        if: ${{ env.TEST2 != 'test2' }}
         run: exit 1
