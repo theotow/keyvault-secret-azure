@@ -9,8 +9,9 @@ inputs:
     required: true
     description: 'name of the azure key vault'
   config:
-    required: true
+    required: false
     description: 'github secret name to key vault secret name mapping'
+    default: '{}'
 runs:
   using: 'node16'
   main: 'dist/index.js'
