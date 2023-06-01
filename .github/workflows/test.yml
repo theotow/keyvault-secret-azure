@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  TEST2: @@ksa:test2
+  TEST2: '@@ksa:test2'
 
 jobs:
   build: # make sure build/ci work properly
