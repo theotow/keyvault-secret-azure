@@ -1,7 +1,7 @@
 import {getSecrets} from './secret-fetch'
 import {IContext} from './shared'
 
-export async function apply(context: IContext): Promise<void> {
+export async function apply(context: IContext<string>): Promise<void> {
   const parsedConfig = parseConfig(context.config)
   const resolvedSecrets = await getSecrets(
     context.client,

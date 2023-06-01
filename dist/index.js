@@ -41,6 +41,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const secretByConfig = __importStar(__nccwpck_require__(3958));
+const secretByEnv = __importStar(__nccwpck_require__(8122));
 const secret_client_1 = __nccwpck_require__(2052);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -48,11 +49,17 @@ function run() {
             const keyVaultName = core.getInput('key-vault-name', { required: true });
             const keyVaultClient = (0, secret_client_1.getClient)({ keyVaultName });
             const config = core.getInput('config', { required: true });
+            const configEnv = process.env;
             const applySecret = (secretEnvName, secretValue) => {
                 core.exportVariable(secretEnvName, secretValue);
                 core.setSecret(secretValue);
             };
             yield secretByConfig.apply({ client: keyVaultClient, config, applySecret });
+            yield secretByEnv.apply({
+                client: keyVaultClient,
+                config: configEnv,
+                applySecret
+            });
         }
         catch (error) {
             if (error instanceof Error)
@@ -105,6 +112,54 @@ function parseConfig(config) {
     catch (e) {
         throw new Error('parsing config failed');
     }
+}
+
+
+/***/ }),
+
+/***/ 8122:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.apply = void 0;
+const secret_fetch_1 = __nccwpck_require__(4811);
+const KEY_PATTERN = /^@@ksa:([0-9\-a-zA-Z]+)$/;
+function apply(context) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const parsedConfig = filterConfig(context.config);
+        const resolvedSecrets = yield (0, secret_fetch_1.getSecrets)(context.client, Object.values(parsedConfig));
+        for (const secretEnvName of Object.keys(parsedConfig)) {
+            const secretValue = resolvedSecrets.get(parsedConfig[secretEnvName]);
+            if (!secretValue) {
+                throw new Error(`secret:${secretEnvName} does not have value`);
+            }
+            // set secret
+            context.applySecret(secretEnvName, secretValue);
+        }
+    });
+}
+exports.apply = apply;
+function filterConfig(config) {
+    const outputConfig = {};
+    return Object.keys(config).reduce((conf, key) => {
+        const value = config[key];
+        const match = value && value.match(KEY_PATTERN);
+        if (match) {
+            conf[key] = match[1];
+        }
+        return conf;
+    }, outputConfig);
 }
 
 
