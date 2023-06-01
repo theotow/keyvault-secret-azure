@@ -8,6 +8,8 @@ Fetches secrets from azure and exposes them to github actions.
 
 ## Usage
 
+With config
+
 ```yaml
 - name: 'Az CLI login'
   uses: azure/login@v1
@@ -22,6 +24,28 @@ Fetches secrets from azure and exposes them to github actions.
     config: |
       {"ENV_VARNAME": "keyvault-secret-name"}
 - run: echo "${{ env.ENV_VARNAME }}"
+```
+
+> Note: make sure you are logged in azure (with azure/login@v1 for example) before calling this action.
+
+With environment variables
+
+```yaml
+runs-on: ubuntu-latest
+env:
+  ENV_VARNAME: '@@ksa:keyvault-secret-name'
+steps:
+  - name: 'Az CLI login'
+    uses: azure/login@v1
+    with:
+      client-id: <fill me>
+      tenant-id: <fill me>
+      subscription-id: <fill me>
+
+  - uses: theotow/keyvault-secret-azure@v1
+    with:
+      key-vault-name: <fill me>
+  - run: echo "${{ env.ENV_VARNAME }}"
 ```
 
 > Note: make sure you are logged in azure (with azure/login@v1 for example) before calling this action.
