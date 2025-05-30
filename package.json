@@ -30,7 +30,7 @@
     "@azure/keyvault-secrets": "^4.9.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.27",
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/ncc": "^0.38.3",
     "eslint": "^8.57.1",
